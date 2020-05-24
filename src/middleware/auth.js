@@ -1,0 +1,22 @@
+const jwt=require('jsonwebtoken')
+const User=require('../models/User')
+
+const auth=async (req,res,next)=>{
+    console.log("Headers \n",req.header("Authorization"))
+   try { 
+    const token=req.header('Authorization').replace('Bearer ',"")
+    console.log("Inside header", token)
+    const decoded=await jwt.verify(token,'thisismysecret')
+    const user=await User.findOne({_id: decoded._id, token: token})
+
+    if(!user) throw new Error('Invalid User')
+    
+    req.token=token
+    req.user=user
+    next()
+} catch(err) {
+    res.status(401).send({'Error': 'Authentication Required'})
+}
+}
+
+module.exports=auth
