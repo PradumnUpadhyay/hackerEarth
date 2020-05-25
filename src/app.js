@@ -1,10 +1,11 @@
 const express=require('express')
 const app=express()
+const path=require('path')
+const hbs=require('hbs')
+const cookieParser=require('cookie-parser')
 const userRoutes=require('./routers/user')
 const taskRoutes=require('./routers/task')
-const path=require('path')
 require('./db/mongoose')
-const hbs=require('hbs')
 
 const port=process.env.PORT || 3000
 
@@ -16,6 +17,7 @@ const partials=path.join(__dirname,'../','/templates','/partials')
 // Setting up utilities
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(cookieParser())
 app.set('view engine','hbs')
 app.set('views',views)
 app.use(express.static(public))

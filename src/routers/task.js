@@ -6,15 +6,15 @@ const Task=require('../models/Task')
 // Creating task
 router.get('/tasks',auth,(req,res)=>{
     console.log(req.user)
-    // res.header("Authorization",req.user.token)
-    res.send('Render Add-task page...')
+    // res.clearCookie("Authorization")
+    res.render('task', { name: "Pradumn Upadhyay" })
 })
 
 router.post('/tasks',auth,async (req,res)=>{
         try {
             const task=new Task({ ...req.body, owner: req.user._id })
             await task.save()
-            res.status(201).send(task)
+            res.status(201).redirect('/tasks/display')
         } catch(err) {
             res.status(501).send(err)
         }
@@ -51,7 +51,8 @@ router.get('/tasks/display',auth,async (req,res)=>{
                      },
                       sort
             }).execPopulate()
-            res.status(200).send(req.user.tasks)
+            console.log(req.user.tasks)
+            res.status(200).render('display', { tasks: req.user.tasks })
 
         } catch(err) {
             res.status(404).send(err)

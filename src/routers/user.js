@@ -5,7 +5,7 @@ const User=require('../models/User')
 
 // Register User
 router.get('/user/register',(req,res)=>{
-    res.render('index',{name: "Pradumn Upadhyay"})
+    res.render('index',{ name: "Pradumn Upadhyay" })
 })
 
 router.post('/user/register', async (req,res)=>{
@@ -16,7 +16,7 @@ router.post('/user/register', async (req,res)=>{
         user.token=token
         await user.save()
         // console.log(user)
-        res.status(200).redirect('/login')
+        res.status(200).redirect('/user/login')
     } catch(err) {
         // console.log(err)
         res.status(500).send(err)
@@ -37,7 +37,8 @@ router.post('/user/login',async (req,res)=>{
     console.log("Token ",token)
     user.token=token
     await user.save()
-    res.writeHead(200,{ "Authorization": `Bearer ${token}` })
+    res.cookie("Authorization","Bearer "+user.token)
+    res.status(200).redirect('/tasks')
 } catch(err) {
     console.log(err)
     res.status(404).send(err)
