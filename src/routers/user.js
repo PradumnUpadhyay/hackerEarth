@@ -23,7 +23,7 @@ router.post('/user/register', async (req,res)=>{
         res.status(200).redirect('/user/login')
     } catch(err) {
         // console.log(err)
-        res.status(500).send(err)
+        res.status(500).send({"Error":"Internal Server Error encountered"})
     }
 })
 
@@ -38,14 +38,14 @@ router.post('/user/login',async (req,res)=>{
     const user=await User.findByCredentials(req.body.email,req.body.password)
     console.log("User ",user)
     const token=await user.generateAuthToken()
-    console.log("Token ",token)
+   
     user.token=token
     await user.save()
     res.cookie("Authorization","Bearer "+user.token)
     res.status(200).redirect('/tasks')
 } catch(err) {
-    console.log(err)
-    res.status(404).send(err)
+   
+    res.status(404).send({"Error": "Invalid Credentials"})
 }
 })
 
@@ -55,9 +55,9 @@ router.post('/user/logout',auth,async (req,res)=>{
     // console.log(req.user, req.body) 
     try {
         req.user.token=' '  
-        console.log(req.user)
+        // console.log(req.user)
         await req.user.save()
-        res.send(req.user)
+        res.status(200).redirect('/user/login')
     } catch(err) {
         res.status(500).send(err)
     }
