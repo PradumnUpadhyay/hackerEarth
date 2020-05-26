@@ -3,6 +3,10 @@ const router=express.Router()
 const auth=require('../middleware/auth')
 const User=require('../models/User')
 
+router.get('/',(req,res,next)=>{
+    res.status(200).redirect('/user/register')
+    next()
+})
 // Register User
 router.get('/user/register',(req,res)=>{
     res.render('index',{ name: "Pradumn Upadhyay" })
