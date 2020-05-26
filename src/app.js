@@ -7,7 +7,7 @@ const userRoutes=require('./routers/user')
 const taskRoutes=require('./routers/task')
 require('./db/mongoose')
 
-const port=process.env.PORT || 3000
+const port=process.env.PORT
 
 // Paths
 const views=path.join(__dirname,'../','/templates','/views')
@@ -23,9 +23,6 @@ app.set('views',views)
 app.use(express.static(public))
 hbs.registerPartials(partials)
 
-// app.use('*',(req,res)=>{
-//     res.writeHead(200,{ 'Authorization': "" })
-// })
 app.use(userRoutes)
 app.use(taskRoutes)
 
