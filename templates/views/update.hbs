@@ -1,13 +1,21 @@
 <!DOCTYPE html> 
 <html> 
 <head> 
-	<title> Login Form</title> 
-		
-		
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">	 
-		
-<link rel="stylesheet" type="text/css" href="../../public/css/main.css"> 
-		
+	<title> Update Tasks</title> 
+<style>
+	#logout {
+		margin: 3rem;
+		position:fixed;
+		right:10px;
+		top:5px;
+	}	
+
+	a {
+		padding: 2rem;
+	}
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+				
 </head> 
 <body> 
 	
@@ -22,26 +30,40 @@
 				
 		<div class="col-md-6 main"> 
 					
-						{{#each task}}	
-			<form action="/tasks/update/{{id}}" method="post"> 
+			{{#each task}}
+			<form action="/tasks/update/{{this._id}}" method="post"> 
 					
-			<h1> Update Your Task </h1> 
-			<input class="box" type="text" name="task" id="task"
-			placeholder="Add Task" value="{{ this.task }}" /><br> 
-							
-						<br> 
-			<input class="box" type="text" name="status" id="status"
-			placeholder="status" value="{{ this.status }}" /><br> 
-							
-						<br> 
-			<input class="box" type="text" name="label" id="label"
-			placeholder="label" value="{{ this.label }}" /><br> 
-							
-						<br> 
-			<button type="submit">Submit</button>
+			<h1>Update Task Details </h1> 
+			<div class="form-group">
+
+				<label for="task">Enter Your Task</label>
+				<input type="text" class="form-control" id="task" name="task" placeholder="Add Task" value="{{this.task}}"/>
+			</div>
+			<div class="form-group">
+				<label for="label">Label for Task</label>
+				<select class="form-control" id="label" name="label">
+  					<option value="{{this.label}}">{{this.label}}</option>
+  					{{!-- <option value="Shopping">Shopping</option>
+  					<option value="Work">Work</option>
+  					<option value="Others">Others</option> --}}
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="status">Status for Task</label>
+				<select class="form-control" id="status" name="status">
+  					<option value="{{this.status}}">{{this.status}}</option>
+  					{{!-- <option value="In-Progress">In-Progress</option>
+  					<option value="Completed">Completed</option> --}}
+				</select>
+			</div>
+			<input type="submit" id="submit" class="btn btn-primary" value="Update Task">
+			<a href="/tasks/display">See Tasks</a>
 			</form> 
+			{{/each}}
 					
-					{{/each}}
+		<form action="/user/logout" method="post" class="form-group">
+			<button class="btn btn-primary" id="logout" type="submit">logout</button>
+		</form>
 		</div> 
 				
 				
@@ -50,6 +72,37 @@
 				
 	</div> 
 	</div> 
-	  {{>footer}}
+	<script>
+		let label=['Work','Personal','Shopping','Others']
+		let status=['Completed','In-Progress','New']
+
+		let l=document.querySelector('#label')
+		let s=document.querySelector('#status')
+
+			//Adding options for label
+		let option=document.querySelector('option').value
+
+		label=label.filter(val=> val.toLowerCase()!=option.toLowerCase())
+
+		for(let i=0;i<3;i++){
+			let opt=document.createElement('option')
+			opt.value=label[i]
+			opt.innerHTML=label[i]
+			l.appendChild(opt)
+		}
+
+		//Adding options for status
+		option=document.querySelectorAll('option')[4].value
+		console.log(option)
+
+		status=status.filter(val => val.toLowerCase()!=option.toLowerCase())
+		console.log(status)
+		for(let i=0;i<2;i++){
+			let opt=document.createElement('option')
+			opt.value=status[i]
+			opt.innerHTML=status[i]
+			s.appendChild(opt)
+		}
+	</script>
 </body> 
 </html>	 

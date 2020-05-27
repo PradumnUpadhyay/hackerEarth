@@ -5,9 +5,8 @@ const Task=require('../models/Task')
 
 // Creating task
 router.get('/tasks',auth,(req,res)=>{
-    console.log(req.user)
     // res.clearCookie("Authorization")
-    res.render('task', { name: "Pradumn Upadhyay" })
+    res.render('task')
 })
 
 router.post('/tasks',auth,async (req,res)=>{
@@ -21,56 +20,50 @@ router.post('/tasks',auth,async (req,res)=>{
 })
 
 // Reading/Displaying Task
-// router.get('/tasks/display',auth,async (req,res)=>{
-//     const match={},sort={}
- 
-//     if(req.query.task) {
-//         match.task=req.query.task==='true'
-//     }
-//     if(req.query.status) {
-//         match.status=req.query.status==='true'
-//     }
-//     if(req.query.label) {
-//         match.label=req.query.label==='true'
-//     }
-
-//     if(req.query.sortBy) {
-//         const parts=req.query.sortBy.split(':')
-//         sort[parts[0]]=parts[1] === 'desc' ? -1 : 1
-//     }
-
-//         try {
-
-//             await req.user.populate({
-//                 path: 'tasks',
-//                 match, 
-//                 // Options are being used for pagination to limit tasks per page to be shown
-//                 options : {
-//                      limit: 3, 
-//                      skip: 2
-//                      },
-//                       sort
-//             }).execPopulate()
-//             console.log(req.user.tasks)
-//             res.status(200).render('display', { tasks: req.user.tasks })
-
-//         } catch(err) {
-//             res.status(404).send(err)
-//         }
-// })
-
-router.get('/tasks/display',auth,async (req, res)=>{
-    try {
-        const task=await Task.find({ owner: req.user._id })
-        if(!task) throw new Error('Task not found!')
-
-        res.status(200).render('display', {
-            tasks: task
-        })
-    } catch(err) {
-        res.status(400).send(err)
+router.get('/tasks/display',auth,async (req,res)=>{
+    const match={},sort={}
+    
+    if(req.query.task) {
+        match.task=req.query.task==='true'
     }
+    if(req.query.status) {
+        match.status=req.query.status==='true'
+    }
+    if(req.query.label) {
+        match.label=req.query.label==='true'
+    }
+
+    if(req.query.sortBy) {
+        const parts=req.query.sortBy.split(':')
+        sort[parts[0]]=parts[1] === 'desc' ? -1 : 1
+    }
+
+        try {
+            await req.user.populate({
+                path: 'tasks',
+                match, 
+                sort
+            }).execPopulate()
+           
+            res.status(200).render('display', { tasks: req.user.tasks })
+
+        } catch(err) {
+            res.status(404).send(err)
+        }
 })
+
+// router.get('/tasks/display',auth,async (req, res)=>{
+//     try {
+//         const task=await Task.find({ owner: req.user._id })
+//         if(!task) throw new Error('Task not found!')
+
+//         res.status(200).render('display', {
+//             tasks: task
+//         })
+//     } catch(err) {
+//         res.status(400).send(err)
+//     }
+// })
 
 // Updating Task
 router.get('/tasks/update/:id',auth,async (req,res)=>{

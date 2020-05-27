@@ -1,23 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        h1 {
+            padding: 2rem;
+            margin: auto;
+        }
+        a {
+            margin: 0.5rem;
+            padding: 2rem;
+        }
+
+        .card{
+            margin: 2rem;
+            display: inline;
+        }
+
+        .card-title {
+            text-transform: uppercase;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Your Tasks</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    
 </head>
 <body>
     
-			<h1> Tasks... </h1> 
-                {{#each tasks}}
-            <input type="hidden" name="id" value="{{ this._id }}">
-            <ul>
-                <li> {{this.task}} </li>
-                <li> {{this.label}} </li>
-                <li> {{this.status}} </li>
-                <a href="/tasks/{{ this._id }}">Delete</a>
-                <a href="/tasks/update/{{ this._id }}">Update</a>
-            <br> 
-            </ul>						
-                {{/each}}
+           <div class="container">
+
+			<h1> Your Tasks </h1> 
+            <a href="/tasks">Back to adding Tasks</a>
+            {{#each tasks}}
+           <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.task}}</h5>
+                    <ul class="list-group list-group-flush card-text">
+                        <li class="list-group-item"> <strong>Status:</strong> {{this.status}} </li>
+                        <li class="list-group-item"><strong>Label:</strong> {{this.label}}</li>
+                        <li class="list-group-item"><strong>Created on:</strong> {{this.createdAt}}</li>
+                    </ul>
+                <a href="/tasks/{{ this._id }}" class="btn btn-primary">Delete</a>
+                <a href="/tasks/update/{{ this._id }}" class="btn btn-secondary">Update</a>
+                </div>
+                </div>
+            </div>
+            </div>
+            {{/each}}
+           </div>
+
 </body>
 </html>

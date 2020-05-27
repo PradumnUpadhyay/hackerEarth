@@ -1,13 +1,17 @@
 <!DOCTYPE html> 
 <html> 
 <head> 
-	<title> Login Form</title> 
-		
-		
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">	 
-		
-<link rel="stylesheet" type="text/css" href="../../public/css/main.css"> 
-		
+	<title> Add Your Tasks</title> 
+<style>
+	#logout {
+		margin: 3rem;
+		position:fixed;
+		right:10px;
+		top:5px;
+	}
+</style>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+				
 </head> 
 <body> 
 	
@@ -24,27 +28,34 @@
 					
 			<form action="/tasks" method="post"> 
 					
-			<h1> Add Your Task </h1> 
-							
-			<input class="box" type="text" name="task" id="task"
-			placeholder="Add Task" /><br> 
-							
-						<br> 
-			<input class="box" type="text" name="status" id="status"
-			placeholder="status" /><br> 
-							
-						<br> 
-			<input class="box" type="text" name="label" id="label"
-			placeholder="label" /><br> 
-							
-						<br> 
-			<input type="submit" id="submitDetails"
-			name="submitDetails" value="Submit" /><br> 
-					
+			<h1>Enter Task Details </h1> 
+
+			<div class="form-group">
+				<label for="task">Enter Your Task</label>
+				<input type="text" class="form-control" id="task" name="task" placeholder="Add Task"/>
+			</div>
+			<div class="form-group">
+				<label for="label">Label for Task</label>
+				<select class="form-control" id="label" name="label">
+  					<option value="Personal">Personal</option>
+  					<option value="Work">Work</option>
+  					<option value="Shopping">Shopping</option>
+  					<option value="Others">Others</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="status">Status for Task</label>
+				<select class="form-control" id="status" name="status">
+  					<option value="New">New</option>
+  					<option value="In-Progress">In-Progress</option>
+  					<option value="Completed">Completed</option>
+				</select>
+			</div>
+			<input type="submit" id="submit" class="btn btn-primary" value="Create Task">
 			</form> 
 					
-		<form action="/user/logout" method="post">
-			<button type="submit">logout</button>
+		<form action="/user/logout" method="post" class="form-group">
+			<button class="btn btn-primary" id="logout" type="submit">logout</button>
 		</form>
 		</div> 
 				
@@ -54,6 +65,5 @@
 				
 	</div> 
 	</div> 
-	  {{>footer}}
 </body> 
 </html>	 
