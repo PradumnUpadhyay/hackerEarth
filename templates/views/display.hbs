@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <style>
+        a.del {
+            float: right;
+            margin: 4rem;
+        }
         h1 {
             padding: 2rem;
             margin: auto;
@@ -30,8 +34,11 @@
            <div class="container">
 
 			<h1> Your Tasks </h1> 
-            <a href="/tasks">Back to adding Tasks</a>
+            {{#unless tasks}}
+            <h3>You don't have any tasks yet.<a href="/tasks">Add Task?</a></h3>
+            {{/unless}}
             {{#each tasks}}
+            <a href="/tasks">Back to adding Tasks</a>
            <div class="row">
             <div class="col-sm-6">
                 <div class="card">
@@ -50,6 +57,6 @@
             </div>
             {{/each}}
            </div>
-        <a href="/user" onclick="return confirm('Are you sure to delete this account ?');">Delete Account</a>
+        <a href="/user" class="btn btn-danger del" onclick="return confirm('Are you sure to delete this account ?');">Delete Account</a>
 </body>
 </html>

@@ -67,7 +67,7 @@ router.post('/user/logout',auth,async (req,res)=>{
 router.get('/user',auth,async (req,res)=>{
     try {
         await req.user.remove()
-        res.status(200).redirect('/user/registration')
+        res.status(200).redirect('/user/register')
 
     } catch(err) {
         res.status(500).send({"Error": "Internal Server Error Encountered"})
