@@ -64,7 +64,7 @@ router.post('/user/logout',auth,async (req,res)=>{
 })
 
 // Deleting user
-router.post('/user',auth,async (req,res)=>{
+router.get('/user',auth,async (req,res)=>{
     try {
         await req.user.remove()
         res.status(200).redirect('/user/registration')
